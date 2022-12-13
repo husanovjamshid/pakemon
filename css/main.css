@@ -3,6 +3,22 @@ body {
     background-color: rgba(255, 255, 67, 0.863);
 }
 
+.packImg img {
+    width: 300px;
+}
+
+@media only screen and (max-width: 768px) {
+    .packImg img {
+        width: 400px;
+    }
+}
+
+
+@media only screen and (max-width: 576px) {
+    .packImg img {
+        width: 200px;
+    }
+}
 .cursor {
     cursor: pointer;
 }

@@ -40,7 +40,7 @@ for (var item of pokemons) {
   cardBody.setAttribute("class", "card-body");
 
   var items = document.createElement("div");
-  items.setAttribute("class", "col-lg-4");
+  items.setAttribute("class", "col-sm-12 col-md-6 col-lg-4");
 
   cardWH.appendChild(weightPack);
   cardWH.appendChild(heightPack);
