@@ -1,56 +1,67 @@
 var elList = document.querySelector(".js-list");
 var elItem = document.querySelector(".js-item");
+var elSelect = document.querySelector(".js-select");
 
-for (var item of pokemons) {
-  var card = document.createElement("div");
-  card.setAttribute("class", "card text-center m-auto cursor p-3 bg border-0 ");
 
-  var idPack = document.createElement("h3");
-  idPack.setAttribute("class", "card-title");
-  idPack.textContent = `#${item.id}`;
+var newArr = [];
 
-  var namePack = document.createElement("h3");
-  namePack.setAttribute("class", "card-title");
-  namePack.textContent = item.name;
+function pocFunc(pocArray, pocList) {
+  pocList.innerHTML = '';
+  for (var item of pocArray) {
+    item.type.forEach(function (el, index) {
+      newArr.push(el);
 
-  var candyPack = document.createElement("p");
-  candyPack.setAttribute("class", '"card-text');
-  candyPack.textContent = item.candy;
+      var set = new Set(newArr);
 
-  var cardWH = document.createElement("div");
-  cardWH.setAttribute("class", "d-flex justify-content-center");
-
-  var weightPack = document.createElement("p");
-  weightPack.setAttribute("class", '"card-text');
-  weightPack.textContent = `Weight: ${item.weight}`;
-
-  var heightPack = document.createElement("p");
-  heightPack.setAttribute("class", '"card-text ms-3');
-  heightPack.textContent = `Height: ${item.height}`;
-
-  var spawn = document.createElement("p");
-  spawn.setAttribute("class", '"card-text ');
-  spawn.textContent = `Spawn time: ${item.spawn_time}`;
-
-  var img = document.createElement("img");
-  img.setAttribute("src", item.img);
-  img.setAttribute("class", "w-50 card-img-top m-auto");
-
-  var cardBody = document.createElement("div");
-  cardBody.setAttribute("class", "card-body");
-
-  var items = document.createElement("div");
-  items.setAttribute("class", "col-sm-12 col-md-6 col-lg-4");
-
-  cardWH.appendChild(weightPack);
-  cardWH.appendChild(heightPack);
-  cardBody.appendChild(idPack);
-  cardBody.appendChild(namePack);
-  cardBody.appendChild(candyPack);
-  cardBody.appendChild(cardWH);
-  cardBody.appendChild(spawn);
-  card.appendChild(img);
-  card.appendChild(cardBody);
-  items.appendChild(card);
-  elList.appendChild(items);
+      newArr = [];
+      for (i of set) {
+        newArr.push(i);
+      }
+    });
+  
+    var cards = document.createElement("div");
+    cards.setAttribute("class", "col-sm-12 col-md-6 col-lg-4");
+    cards.innerHTML = `
+      <div class="card text-center border-0 m-auto p-3">
+        <img src="${item.img}" class="card-img-top m-auto" alt="${item.name}">
+        <div class="card-body">
+          <h5 class="card-title"><strong>#${item.id}</strong></h5>
+          <h5 class="card-title mt-3">${item.name}</h5>
+          <p class="card-text">Candy: ${item.candy}</p>
+          <div>
+          <div class="d-flex justify-content-center"><p class="&quot;card-text">Weight: ${item.weight}</p><p class="&quot;card-text ms-3">Height: ${item.height}</p></div>
+          </div>
+          <p class="card-text">Spawn time: ${item.spawn_time}</p>
+          
+        </div>
+      </div>
+    `;
+    pocList.appendChild(cards);
+  }
 }
+pocFunc(pokemons, elList);
+
+
+for (var types of newArr) {
+  var newOption = document.createElement("option");
+  newOption.setAttribute("value", `${types}`);
+  newOption.textContent = types;
+
+  elSelect.appendChild(newOption);
+}
+
+var pocTypes = [];
+elSelect.addEventListener("change", function () {
+  pocTypes = [];
+
+  if(elSelect.value != 'All') {
+    pokemons.forEach((pokemon)=> {
+      if(pokemon.type.includes(elSelect.value)) {
+        pocTypes.push(pokemon);
+      }
+    });
+    pocFunc(pocTypes, elList);
+  }else {
+    pocFunc(pokemons, elList);
+  }
+});
