@@ -1,12 +1,11 @@
 var elList = document.querySelector(".js-list");
 var elItem = document.querySelector(".js-item");
 var elSelect = document.querySelector(".js-select");
-
+var elInput = document.querySelector(".js-input");
 
 var newArr = [];
-
 function pocFunc(pocArray, pocList) {
-  pocList.innerHTML = '';
+  pocList.innerHTML = "";
   for (var item of pocArray) {
     item.type.forEach(function (el, index) {
       newArr.push(el);
@@ -18,7 +17,7 @@ function pocFunc(pocArray, pocList) {
         newArr.push(i);
       }
     });
-  
+
     var cards = document.createElement("div");
     cards.setAttribute("class", "col-sm-12 col-md-6 col-lg-4");
     cards.innerHTML = `
@@ -41,7 +40,6 @@ function pocFunc(pocArray, pocList) {
 }
 pocFunc(pokemons, elList);
 
-
 for (var types of newArr) {
   var newOption = document.createElement("option");
   newOption.setAttribute("value", `${types}`);
@@ -54,14 +52,26 @@ var pocTypes = [];
 elSelect.addEventListener("change", function () {
   pocTypes = [];
 
-  if(elSelect.value != 'All') {
-    pokemons.forEach((pokemon)=> {
-      if(pokemon.type.includes(elSelect.value)) {
+  if (elSelect.value != "All") {
+    pokemons.forEach((pokemon) => {
+      if (pokemon.type.includes(elSelect.value)) {
         pocTypes.push(pokemon);
       }
     });
     pocFunc(pocTypes, elList);
-  }else {
+  } else {
     pocFunc(pokemons, elList);
   }
+});
+
+var inArr = [];
+elInput.addEventListener("input", () => {
+  inArr = [];
+  pokemons.forEach((inputItem) => {
+    if (inputItem.name.toLowerCase().includes(elInput.value)) {
+      inArr.push(inputItem);
+    }
+  });
+  console.log(inArr);
+  pocFunc(inArr, elList);
 });
