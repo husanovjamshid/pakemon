@@ -51,8 +51,8 @@ p {
 }
 
 .form-select {
-    width: 400px;
-    margin: 0 auto;
+    /* width: 400px; */
+    /* margin: 0 auto; */
 }
 
 @media only screen and (max-width: 768px) {
@@ -70,10 +70,8 @@ p {
 }
 
 
-.js-input {
-    width: 400px;
-    margin: 0 auto;
-    transition: all .5s ease;
+.js_input {
+    margin: 20px 0;
 }
 
 @media only screen and (max-width: 768px) {

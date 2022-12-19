@@ -2,6 +2,7 @@ var elList = document.querySelector(".js-list");
 var elItem = document.querySelector(".js-item");
 var elSelect = document.querySelector(".js-select");
 var elInput = document.querySelector(".js-input");
+var elSort = document.querySelector(".sorts");
 
 var newArr = [];
 function pocFunc(pocArray, pocList) {
@@ -48,6 +49,7 @@ for (var types of newArr) {
   elSelect.appendChild(newOption);
 }
 
+// SELECT
 var pocTypes = [];
 elSelect.addEventListener("change", function () {
   pocTypes = [];
@@ -64,6 +66,7 @@ elSelect.addEventListener("change", function () {
   }
 });
 
+// INPUT
 var inArr = [];
 elInput.addEventListener("input", () => {
   inArr = [];
@@ -74,4 +77,33 @@ elInput.addEventListener("input", () => {
   });
   console.log(inArr);
   pocFunc(inArr, elList);
+});
+
+// SORT
+
+var sortArr = [];
+elSort.addEventListener("change", function () {
+  sortArr = [];
+  if (elSort.value != "All") {
+    pokemons.forEach((item) => {
+      if (elSort.value == "a_z") {
+        sortArr.push(item);
+        sortArr.sort(
+          (a, b) =>
+            a.name.toLowerCase().charCodeAt(0) -
+            b.name.toLowerCase().charCodeAt(0)
+        );
+      } else {
+        sortArr.push(item);
+        sortArr.sort(
+          (a, b) =>
+            b.name.toLowerCase().charCodeAt(0) -
+            a.name.toLowerCase().charCodeAt(0)
+        );
+      }
+    });
+    pocFunc(sortArr, elList);
+  } else {
+    pocFunc(pokemons, elList);
+  }
 });

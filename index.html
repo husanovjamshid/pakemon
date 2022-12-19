@@ -21,11 +21,25 @@
                 <img class="img-fluid " src="./images/International_Pokémon_logo.svg.png" alt="">
             </div>
             
-            <select class="form-select mt-5 js-select" aria-label="Default select example">
-                <option>All</option>
-            </select>
-
-            <input type="text" class="form-control mt-3 js-input">
+            <div class="row mt-5 d-flex align-items-center ">
+                <div class="col-sm-12 col-md-12 col-lg-4">
+                    <select class="form-select  js-select" aria-label="Default select example">
+                        <option selected disabled>Choose category</option>
+                        <option>All</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-4 js_input">
+                    <input type="text" placeholder="Search pokemons" class="form-control js-input">
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-4">
+                    <select class="form-select sorts" aria-label="Default select example">
+                        <option selected disabled >Choose Sort</option>
+                        <option>All</option>
+                        <option value="a_z">A-Z</option>
+                        <option value="z_a">Z-A</option>
+                    </select>
+                </div>
+            </div>
             
            
             <div class="js-list row g-5 mt-1">

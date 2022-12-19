@@ -222,7 +222,7 @@ var pokemons = [
 	{
 		id: 9,
 		num: '009',
-		name: 'Blastoise',
+		name: 'blastoise',
 		img: 'http://www.serebii.net/pokemongo/pokemon/009.png',
 		type: ['Water'],
 		height: '1.60 m',
