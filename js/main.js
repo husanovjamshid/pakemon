@@ -3,6 +3,8 @@ var elItem = document.querySelector(".js-item");
 var elSelect = document.querySelector(".js-select");
 var elInput = document.querySelector(".js-input");
 var elSort = document.querySelector(".sorts");
+var elBookmark = document.querySelector(".bookmark__list");
+// var elDeleteBook = document.querySelector(".fa-trash");
 
 var newArr = [];
 function pocFunc(pocArray, pocList) {
@@ -18,9 +20,14 @@ function pocFunc(pocArray, pocList) {
         newArr.push(i);
       }
     });
-
     var cards = document.createElement("div");
-    cards.setAttribute("class", "col-sm-12 col-md-6 col-lg-4");
+    cards.setAttribute(
+      "class",
+      "col-sm-12 col-md-6 col-lg-4  position-relative"
+    );
+    let bookmarkBtn = document.createElement("i");
+    bookmarkBtn.setAttribute("class", "fa-regular fa-bookmark");
+
     cards.innerHTML = `
       <div class="card text-center border-0 m-auto p-3">
         <img src="${item.img}" class="card-img-top m-auto" alt="${item.name}">
@@ -36,6 +43,8 @@ function pocFunc(pocArray, pocList) {
         </div>
       </div>
     `;
+    bookmarkBtn.dataset.pocId = item.id;
+    cards.appendChild(bookmarkBtn);
     pocList.appendChild(cards);
   }
 }
@@ -49,6 +58,54 @@ for (var types of newArr) {
   elSelect.appendChild(newOption);
 }
 
+// Favorite list
+
+function pocBookmarkFunc(array, node) {
+  node.innerHTML = "";
+  array.forEach((item) => {
+    let BookItem = document.createElement("li");
+    BookItem.setAttribute("class", "list-group-item d-flex justify-content-between align-items-center");
+    BookItem.textContent = item.name;
+    let bookDeleteBtn = document.createElement("i");
+    bookDeleteBtn.setAttribute("class", "fa-solid fa-trash deleteBookmark text-danger");
+    bookDeleteBtn.dataset.pokId = item.id
+
+    
+    BookItem.appendChild(bookDeleteBtn)
+    node.appendChild(BookItem);
+    window.localStorage.setItem('bookmarkList', JSON.stringify(bookmarkList))
+  });
+}
+
+let bookmarkList = JSON.parse(window.localStorage.getItem('bookmarkList')) || [];
+elList.addEventListener("click", (evt) => {
+  if (evt.target.matches(".fa-bookmark")) {
+    let pocId = evt.target.dataset.pocId;
+    let pocFind = pokemons.find((item) => item.id == pocId);
+
+    let dates = new Date()
+    let obj = {
+      id: dates.getSeconds(),
+      name: pocFind.name
+    }
+
+    bookmarkList.push(obj)
+    pocBookmarkFunc(bookmarkList, elBookmark)
+   
+  }
+});
+
+elBookmark.addEventListener('click', (evt) => {
+  if(evt.target.matches('.deleteBookmark')) {
+    let pocId = evt.target.dataset.pokId;
+    let pocFind = bookmarkList.findIndex((item) => item.id == pocId);
+    console.log(pocFind);
+    bookmarkList.splice(pocFind, 1)
+    pocBookmarkFunc(bookmarkList, elBookmark)
+  }
+})
+
+pocBookmarkFunc(bookmarkList, elBookmark)
 // SELECT
 var pocTypes = [];
 elSelect.addEventListener("change", function () {
@@ -107,3 +164,44 @@ elSort.addEventListener("change", function () {
     pocFunc(pokemons, elList);
   }
 });
+
+var elDarkBtn = document.querySelector(".dark__mode");
+var elLightBtn = document.querySelector(".light__mode");
+
+let theme = false;
+
+elDarkBtn.addEventListener("click", function () {
+  theme = true;
+
+  let bg = "dark";
+  window.localStorage.setItem("theme", bg);
+  darkFunc();
+});
+
+function darkFunc() {
+  if (window.localStorage.getItem("theme") == "dark") {
+    elDarkBtn.classList.add("mode__active");
+    elLightBtn.classList.remove("mode__active");
+    document.body.style.backgroundColor = "#333";
+  }
+}
+
+darkFunc();
+
+elLightBtn.addEventListener("click", function () {
+  theme = false;
+
+  let bg = "light";
+  window.localStorage.setItem("theme", bg);
+  lightFunc();
+});
+
+function lightFunc() {
+  if (window.localStorage.getItem("theme") == "light") {
+    document.body.style.backgroundColor = "rgba(255, 255, 67, 0.863)";
+    elDarkBtn.classList.remove("mode__active");
+    elLightBtn.classList.add("mode__active");
+  }
+}
+
+lightFunc();
